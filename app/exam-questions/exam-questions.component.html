@@ -1,0 +1,115 @@
+<div class="row ng-scope">
+  <div class="col-lg-12 col-sm-12 col-xs-12">
+    <h5 class="row-title before-themeprimary">
+      <i class="fa  fa-arrow-circle-o-right themeprimary"></i>List Type Exam</h5>
+    <div class="well with-header with-footer">
+      <div class="header bg-palegreen">
+        List
+      </div>
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <th>STT</th>
+            <th>Tên Exam</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
+          </tr>
+          <tr *ngFor="let item of pagedItems; let i = index">
+            <td>{{page * amount + i + 1}}</td>
+            <td>{{item.Name}}</td>
+            <td>{{item.Description}}</td>
+            <td>
+              <button class="btn btn-sm btn-success" (click)="showQuestion(item)">Câu hỏi</button>
+              <button class="btn btn-sm btn-info" (click)="UpdateCategory(item)">Sửa</button>
+              <button class="btn btn-sm btn-danger" (click)="DeteleCategory(item.Id)">Xóa</button>
+            </td>
+        </tbody>
+      </table>
+      <div class="footer">
+        <div class="input-group input-group-sm pull-left" style="width: 150px;">
+          <input class="form-control" [(ngModel)]="gopage" name="table_search" placeholder="Tới trang" type="text">
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="gotoPage()" type="">
+              <i class="fa fa-arrow-circle-right"></i>
+            </button>
+          </div>
+        </div>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination pagination-sm no-margin pull-right">
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="listQueston" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" modal-transclude="">
+      <div class="modal-header ng-scope">
+        <h3 class="modal-title">List Question
+          <strong>{{examChoosen}}</strong>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let q of questions; let i = index">
+          <div>
+            <p>
+              <span style="font-weight: bold;">Question {{i + 1}}:</span> {{q.QuestionContent}}</p>
+            <p></p>
+            <div class="row">
+              <div class="col-md-3">
+                <label>
+                  <input *ngIf="q.AnswerA == q.CorrectAnswer" checked="checked" disabled="disabled" type="radio" class="colored-success">
+                  <input *ngIf="q.AnswerA != q.CorrectAnswer" disabled="disabled" type="radio" class="colored-success">
+                  <span class="text text-radio-disable"> {{q.AnswerA}}</span>
+                </label>
+              </div>
+              <div class="col-md-3">
+                <label>
+                  <input *ngIf="q.AnswerB == q.CorrectAnswer" checked="checked" disabled="disabled" type="radio" class="colored-success">
+                  <input *ngIf="q.AnswerB != q.CorrectAnswer" disabled="disabled" type="radio" class="colored-success">
+                  <span class="text text-radio-disable"> {{q.AnswerB}}</span>
+                </label>
+              </div>
+              <div class="col-md-3">
+                <label>
+                  <input *ngIf="q.AnswerC == q.CorrectAnswer" checked="checked" disabled="disabled" type="radio" class="colored-success">
+                  <input *ngIf="q.AnswerC != q.CorrectAnswer" disabled="disabled" type="radio" class="colored-success">
+                  <span class="text text-radio-disable"> {{q.AnswerC}}</span>
+                </label>
+              </div>
+              <div class="col-md-3">
+                <label>
+                  <input *ngIf="q.AnswerD == q.CorrectAnswer" checked="checked" disabled="disabled" type="radio" class="colored-success">
+                  <input *ngIf="q.AnswerD != q.CorrectAnswer" disabled="disabled" type="radio" class="colored-success">
+                  <span class="text text-radio-disable"> {{q.AnswerD}}</span>
+                </label>
+              </div>
+            </div>
+            <span style="font-weight: bold;">Explain:</span>
+            <code>{{q.Explain}}</code>
+          </div>
+          <hr class="wide">
+        </div>
+      </div>
+      <div class="modal-footer ng-scope">
+        <button class="btn btn-blue" (click)="closeListQuestion()">OK</button>
+        <!-- <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
+      </div>
+    </div>
+  </div>
+</div>
